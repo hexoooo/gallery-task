@@ -17,5 +17,6 @@ use App\Http\Controllers\GalleryController;
 
 Route::view('/', 'dashboard.site.home.index')->name('/');
 
-Route::resource('gallery', GalleryController::class);
+Route::resource('galleries', GalleryController::class)->except('update');
+Route::POST('galleries/{gallery}', [GalleryController::class, 'update'])->name('galleries.update');
 Route::resource('images', ImageController::class);
