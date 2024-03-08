@@ -38,6 +38,8 @@ class GalleryController extends Controller
      */
     public function show($id)
     {
+        return $this->gallery_service->show($id);
+
     }
 
     /**
@@ -73,4 +75,20 @@ class GalleryController extends Controller
     {
         return $this->gallery_service->destroy($id);
     }
+    
+    public function addImage($id, request $request)
+    {
+        return $this->gallery_service->addImage($id, $request);
+    }
+    public function deleteImage($gallery_id, $image_id)
+    {
+        return $this->gallery_service->deleteImage($gallery_id, $image_id);
+    }
+    
+    public function deleteMoveImage($new_gallery,$old_gallery)
+    {
+        return $this->gallery_service->deleteMoveImage($new_gallery, $old_gallery);
+    }
+    
+
 }

@@ -16,9 +16,5 @@ class Gallery extends Model implements HasMedia
     protected $table = 'galleries';
     protected $guarded = [];
 
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
     
 }

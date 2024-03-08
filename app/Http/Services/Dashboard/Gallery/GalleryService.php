@@ -2,11 +2,14 @@
 
 namespace App\Http\Services\Dashboard\Gallery;
 
+use App\Http\Traits\FileManager;
+use App\Models\Gallery;
 use App\Repository\GalleryRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class GalleryService
 {
+    use FileManager;
     public function __construct(private readonly GalleryRepositoryInterface $gallery_repository)
     {
     }
@@ -35,17 +38,26 @@ class GalleryService
     public function update($request, $id)
     {
         $this->gallery_repository->update($id, $request->validated());
-        dd($this->gallery_repository->getById($id));
+        // dd($this->gallery_repository->getById($id));
         return redirect()->route('galleries.index')->with(['success' => 'album updated successfully']);
     }
 
     public function destroy($id)
     {
-        try {
-            $this->gallery_repository->delete($id);
-            return redirect()->back()->with(['success' => __('messages.deleted_successfully')]);
-        } catch (\Exception $e) {
-            return back()->with(['error' => __('messages.Something went wrong')]);
-        }
+        $this->gallery_repository->delete($id);
+        return redirect()->route('galleries.index')->with(['success' => 'album deleted successfully']);
+    }
+    public function addImage($id, $request)
+    {
+        $this->gallery_repository->addImage($id, $request->image);
+        return redirect()->route('galleries.index')->with(['success' => 'image added successfully']);
+    }
+    public function deleteImage($gallery_id, $image_id)
+    {
+       return $this->gallery_repository->deleteImage($gallery_id, $image_id);
+    }
+    public function deleteMoveImage($old_gallery, $new_gallery)
+    {
+       return $this->gallery_repository->deleteMoveImage($old_gallery, $new_gallery);
     }
 }
