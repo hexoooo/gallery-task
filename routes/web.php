@@ -18,7 +18,7 @@ use App\Http\Controllers\GalleryController;
 Route::view('/', 'dashboard.site.home.index')->name('/');
 
 Route::resource('galleries', GalleryController::class);
-Route::post('/addimage/{gallery}', [GalleryController::class,'addImage'])->name('galleries.addimage');
-Route::post('/delete-image/{gallery}/{id}', [GalleryController::class,'deleteImage'])->name('galleries.deleteImage');
-Route::post('/galleries/move-image/{new_gallery}/{old_gallery}', [GalleryController::class, 'deleteMoveImage'])->name('galleries.moveImage');
-
+Route::post('/addimage/{gallery}', [GalleryController::class, 'addImage'])->name('galleries.addimage');
+Route::post('/delete-image/{gallery}/{id}', [GalleryController::class, 'deleteImage'])->name('galleries.deleteImage');
+Route::post('/change-image-name/{gallery_id}/{image_id}', [GalleryController::class, 'changeImageName'])->name('galleries.ChangeImageName');
+Route::post('/galleries/move-image', [GalleryController::class, 'deleteMoveImage'])->name('galleries.moveImageDelete');

@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\User;
+namespace App\Http\Requests;
 
-use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+class ImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +22,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'phone' => ['required', new Phone, Rule::unique('users', 'phone')->ignore(auth('api')->id())],
-            'email' => ['required', 'email:rfc,dns', Rule::unique('users', 'email')->ignore(auth('api')->id())],
+            'image.*'=> 'required|max:2048|mimes:jpeg,png,jpg,gif,svg,webp,ico,jfif',
         ];
     }
 }

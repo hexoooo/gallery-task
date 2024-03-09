@@ -16,8 +16,8 @@ class GalleryService
 
     public function index()
     {
-        $albums = $this->gallery_repository->paginate(25);
-        return view('dashboard.site.galleries.index', compact('albums'));
+        $galleries = $this->gallery_repository->paginate(25);
+        return view('dashboard.site.galleries.index', compact('galleries'));
     }
     public function store($request)
     {
@@ -39,7 +39,7 @@ class GalleryService
     {
         $this->gallery_repository->update($id, $request->validated());
         // dd($this->gallery_repository->getById($id));
-        return redirect()->route('galleries.index')->with(['success' => 'album updated successfully']);
+        return redirect()->route('galleries.show', $id)->with(['success' => 'album updated successfully']);
     }
 
     public function destroy($id)
@@ -50,14 +50,22 @@ class GalleryService
     public function addImage($id, $request)
     {
         $this->gallery_repository->addImage($id, $request->image);
-        return redirect()->route('galleries.index')->with(['success' => 'image added successfully']);
+        return redirect()->route('galleries.show', $id)->with(['success' => 'image added successfully']);
     }
     public function deleteImage($gallery_id, $image_id)
     {
-       return $this->gallery_repository->deleteImage($gallery_id, $image_id);
+        $this->gallery_repository->deleteImage($gallery_id, $image_id);
+        return redirect()->route('galleries.show', $gallery_id)->with(['success' => 'image name changed successfully']);
     }
-    public function deleteMoveImage($old_gallery, $new_gallery)
+    public function deleteMoveImage($request)
     {
-       return $this->gallery_repository->deleteMoveImage($old_gallery, $new_gallery);
+        $old_gallery_id = $request->oldGalleryId;
+        $new_gallery_id =$request->newGalleryId;
+        return $this->gallery_repository->deleteMoveImage($old_gallery_id, $new_gallery_id);
+    }
+    public function changeImageName($gallery_id, $image_id, $request)
+    {
+        $this->gallery_repository->changeImageName($gallery_id, $image_id, $request->name);
+        return redirect()->route('galleries.show', $gallery_id)->with(['success' => 'image name changed successfully']);
     }
 }

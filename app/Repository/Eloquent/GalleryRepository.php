@@ -28,29 +28,32 @@ class GalleryRepository extends Repository implements GalleryRepositoryInterface
         $image = $model->getMedia()->find($imageId);
 
         if ($image) {
-            
+
             $image->delete();
-            return response()->json(['success' => true]);
         }
-
-        return response()->json(['success' => false]);
-
     }
-    public function deleteMoveImage($old_gallery, $new_gallery)
+    public function deleteMoveImage($old_gallery_id, $new_gallery_id)
     {
-        $model = $this->getById($old_gallery);
+        $model = $this->getById($old_gallery_id);
+        $new_gallery = $this->getById($new_gallery_id);
         $images = $model->getMedia();
 
         if ($images) {
             foreach ($images as $image) {
 
                 $image->move($new_gallery);
-                
             }
-            return response()->json(['success' => true]);
+            $model->delete();
+            return response()->json(['success' => true, 'message' => 'Images moved successfully']);
         }
 
         return response()->json(['success' => false]);
+    }
+    public function changeImageName($gallery_id, $image_id, $name)
+    {
 
+        $model = $this->getById($gallery_id);
+        $image = $model->getMedia()->find($image_id);
+        $image->update(['name' => $name]);
     }
 }

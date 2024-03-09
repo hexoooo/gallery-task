@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use App\Providers\GlobalDataServiceProvider;
 use App\Providers\RepositoryServiceProvider;
 
 
@@ -171,6 +172,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         RepositoryServiceProvider::class,
+        GlobalDataServiceProvider::class,
 
     ])->toArray(),
 
